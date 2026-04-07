@@ -1,0 +1,29 @@
+Metadata-Version: 2.4
+Name: ai-memory-bank
+Version: 0.1.0
+Summary: Git-backed long-term memory bank CLI for persistent AI development context.
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: typer<1.0,>=0.20
+Requires-Dist: PyYAML<7,>=6
+
+# AI Memory Bank CLI
+
+Git-backed long-term memory bank tooling for persistent AI development context.
+
+## Commands
+
+- `ai-sync init`
+- `ai-sync doctor`
+- `ai-sync compile`
+- `ai-sync start`
+- `ai-sync checkpoint`
+- `ai-sync handoff`
+- `ai-sync apply <packet-file>`
+- `ai-sync status`
+
+## Install
+
+```bash
+python -m pip install -e .
+```

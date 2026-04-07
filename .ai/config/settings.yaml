@@ -1,0 +1,32 @@
+version: 1
+
+paths:
+  memory_dir: .ai/memory
+  compiled_dir: .ai/compiled
+  latest_context_file: .ai/compiled/LATEST_CONTEXT.md
+  snapshot_dir: .ai/compiled/snapshots
+  runtime_dir: .ai/runtime
+  prompt_dir: .ai/runtime/prompts
+  config_file: .ai/config/settings.yaml
+  archive_file: .ai/memory/archive.log
+  handoff_monologue_file: .ai/runtime/last_internal_monologue.md
+
+memory:
+  roadmap_file: .ai/memory/02_roadmap.md
+  core_files:
+    - .ai/memory/01_global_context.md
+    - .ai/memory/02_roadmap.md
+    - .ai/memory/03_logic_map.md
+    - .ai/memory/04_active_buffer.md
+  write_roots:
+    - .ai/memory
+
+compiler:
+  prune_completed_tasks: true
+  strip_markdown_comments: true
+  collapse_blank_lines: true
+  snapshot_on_compile: true
+
+git:
+  stage_on_apply: true
+  commit_on_apply: false

@@ -1,0 +1,54 @@
+name: Sync AI Memory
+
+on:
+  push:
+    paths:
+      - '.ai/memory/**'
+      - '.ai/schemas/**'
+      - '.ai/scripts/aggregate.py'
+      - '.github/workflows/sync.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ai-memory-sync-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  compile-and-sync:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install compiler dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pyyaml jsonschema
+
+      - name: Compile memory state
+        env:
+          SESSION_ID: ${{ github.run_id }}.${{ github.run_attempt }}
+        run: |
+          python .ai/scripts/aggregate.py
+
+      - name: Commit generated updates
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .ai/LATEST_CONTEXT.md .ai/memory/02_roadmap.md .ai/memory/archive.log
+          if git diff --cached --quiet; then
+            echo "No generated changes to commit."
+            exit 0
+          fi
+          git commit -m "chore(ai-memory): sync latest context [skip ci]"
+          git push

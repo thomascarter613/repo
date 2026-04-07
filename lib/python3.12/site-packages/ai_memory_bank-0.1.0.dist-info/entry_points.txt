@@ -1,0 +1,2 @@
+[console_scripts]
+ai-sync = ai_memory_bank.cli:app

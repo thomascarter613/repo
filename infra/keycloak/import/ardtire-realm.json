@@ -1,0 +1,931 @@
+{
+  "id": "ardtire",
+  "realm": "ardtire",
+  "displayName": "Ardtire Society",
+  "displayNameHtml": "<div class=\"kc-logo-text\"><span>Ardtire Society</span></div>",
+  "enabled": true,
+  "registrationAllowed": false,
+  "registrationEmailAsUsername": false,
+  "rememberMe": true,
+  "verifyEmail": true,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": true,
+  "permanentLockout": false,
+  "maxFailureWaitSeconds": 900,
+  "minimumQuickLoginWaitSeconds": 60,
+  "waitIncrementSeconds": 60,
+  "quickLoginCheckMilliSeconds": 1000,
+  "maxDeltaTimeSeconds": 43200,
+  "failureFactor": 10,
+  "sslRequired": "external",
+  "eventsEnabled": true,
+  "eventsExpiration": 1209600,
+  "eventsListeners": [
+    "jboss-logging"
+  ],
+  "enabledEventTypes": [
+    "LOGIN",
+    "LOGIN_ERROR",
+    "LOGOUT",
+    "LOGOUT_ERROR",
+    "REGISTER",
+    "REGISTER_ERROR",
+    "UPDATE_PROFILE",
+    "UPDATE_PROFILE_ERROR",
+    "UPDATE_PASSWORD",
+    "UPDATE_PASSWORD_ERROR",
+    "VERIFY_EMAIL",
+    "VERIFY_EMAIL_ERROR",
+    "RESET_PASSWORD",
+    "RESET_PASSWORD_ERROR",
+    "CODE_TO_TOKEN",
+    "CODE_TO_TOKEN_ERROR",
+    "CLIENT_LOGIN",
+    "CLIENT_LOGIN_ERROR",
+    "TOKEN_EXCHANGE",
+    "TOKEN_EXCHANGE_ERROR",
+    "REVOKE_GRANT",
+    "REVOKE_GRANT_ERROR",
+    "DELETE_ACCOUNT",
+    "DELETE_ACCOUNT_ERROR"
+  ],
+  "adminEventsEnabled": true,
+  "adminEventsDetailsEnabled": true,
+  "accessTokenLifespan": 300,
+  "accessTokenLifespanForImplicitFlow": 900,
+  "ssoSessionIdleTimeout": 1800,
+  "ssoSessionMaxLifespan": 36000,
+  "ssoSessionIdleTimeoutRememberMe": 2592000,
+  "ssoSessionMaxLifespanRememberMe": 2592000,
+  "offlineSessionIdleTimeout": 2592000,
+  "offlineSessionMaxLifespanEnabled": true,
+  "offlineSessionMaxLifespan": 7776000,
+  "clientSessionIdleTimeout": 0,
+  "clientSessionMaxLifespan": 0,
+  "clientOfflineSessionIdleTimeout": 0,
+  "clientOfflineSessionMaxLifespan": 0,
+  "defaultSignatureAlgorithm": "RS256",
+  "revokeRefreshToken": true,
+  "refreshTokenMaxReuse": 0,
+  "internationalizationEnabled": false,
+  "defaultLocale": "en",
+  "loginTheme": "keycloak",
+  "accountTheme": "keycloak.v3",
+  "adminTheme": "keycloak.v2",
+  "emailTheme": "keycloak",
+  "requiredActions": [
+    {
+      "alias": "VERIFY_EMAIL",
+      "name": "Verify Email",
+      "providerId": "VERIFY_EMAIL",
+      "enabled": true,
+      "defaultAction": true,
+      "priority": 10,
+      "config": {}
+    },
+    {
+      "alias": "UPDATE_PASSWORD",
+      "name": "Update Password",
+      "providerId": "UPDATE_PASSWORD",
+      "enabled": true,
+      "defaultAction": false,
+      "priority": 20,
+      "config": {}
+    },
+    {
+      "alias": "CONFIGURE_TOTP",
+      "name": "Configure OTP",
+      "providerId": "CONFIGURE_TOTP",
+      "enabled": true,
+      "defaultAction": false,
+      "priority": 30,
+      "config": {}
+    },
+    {
+      "alias": "UPDATE_PROFILE",
+      "name": "Update Profile",
+      "providerId": "UPDATE_PROFILE",
+      "enabled": true,
+      "defaultAction": false,
+      "priority": 40,
+      "config": {}
+    }
+  ],
+  "otpPolicyType": "totp",
+  "otpPolicyAlgorithm": "HmacSHA1",
+  "otpPolicyInitialCounter": 0,
+  "otpPolicyDigits": 6,
+  "otpPolicyLookAheadWindow": 1,
+  "otpPolicyPeriod": 30,
+  "otpSupportedApplications": [
+    "totpAppFreeOTPName",
+    "totpAppGoogleName",
+    "totpAppMicrosoftAuthenticatorName"
+  ],
+  "browserSecurityHeaders": {
+    "contentSecurityPolicyReportOnly": "",
+    "xContentTypeOptions": "nosniff",
+    "referrerPolicy": "no-referrer",
+    "xRobotsTag": "none",
+    "xFrameOptions": "SAMEORIGIN",
+    "contentSecurityPolicy": "frame-src 'self'; frame-ancestors 'self'; object-src 'none';",
+    "xXSSProtection": "1; mode=block",
+    "strictTransportSecurity": "max-age=31536000; includeSubDomains"
+  },
+  "smtpServer": {
+    "host": "${KEYCLOAK_SMTP_HOST}",
+    "port": "${KEYCLOAK_SMTP_PORT}",
+    "from": "${KEYCLOAK_SMTP_FROM}",
+    "fromDisplayName": "Ardtire Society",
+    "auth": "${KEYCLOAK_SMTP_AUTH}",
+    "ssl": "${KEYCLOAK_SMTP_SSL}",
+    "starttls": "${KEYCLOAK_SMTP_STARTTLS}",
+    "user": "${KEYCLOAK_SMTP_USER}",
+    "password": "${KEYCLOAK_SMTP_PASSWORD}"
+  },
+  "roles": {
+    "realm": [
+      {
+        "name": "crown",
+        "description": "Emergency-only superadmin authority for the realm and institutional platform.",
+        "composite": false,
+        "clientRole": false,
+        "attributes": {
+          "tier": ["platform"],
+          "sensitivity": ["critical"]
+        }
+      },
+      {
+        "name": "admin",
+        "description": "Full platform administration authority below crown.",
+        "composite": false,
+        "clientRole": false,
+        "attributes": {
+          "tier": ["platform"]
+        }
+      },
+      {
+        "name": "iam-admin",
+        "description": "Identity and access administration authority.",
+        "composite": false,
+        "clientRole": false,
+        "attributes": {
+          "tier": ["platform"]
+        }
+      },
+      {
+        "name": "support",
+        "description": "Operational support authority with limited privileged access.",
+        "composite": false,
+        "clientRole": false,
+        "attributes": {
+          "tier": ["platform"]
+        }
+      },
+      {
+        "name": "auditor",
+        "description": "Read-only audit and oversight authority.",
+        "composite": false,
+        "clientRole": false,
+        "attributes": {
+          "tier": ["platform"]
+        }
+      },
+      {
+        "name": "associate",
+        "description": "Associate-level institutional membership.",
+        "composite": false,
+        "clientRole": false,
+        "attributes": {
+          "tier": ["membership"]
+        }
+      },
+      {
+        "name": "member",
+        "description": "Full institutional membership.",
+        "composite": false,
+        "clientRole": false,
+        "attributes": {
+          "tier": ["membership"]
+        }
+      },
+      {
+        "name": "founding-member",
+        "description": "Founding member institutional status.",
+        "composite": false,
+        "clientRole": false,
+        "attributes": {
+          "tier": ["membership"]
+        }
+      },
+      {
+        "name": "officer",
+        "description": "Institutional officeholder authority.",
+        "composite": false,
+        "clientRole": false,
+        "attributes": {
+          "tier": ["governance"]
+        }
+      },
+      {
+        "name": "verified-user",
+        "description": "Authenticated person whose baseline verification requirements are complete.",
+        "composite": false,
+        "clientRole": false,
+        "attributes": {
+          "tier": ["identity"]
+        }
+      },
+      {
+        "name": "internal-access",
+        "description": "Access to internal authenticated surfaces.",
+        "composite": false,
+        "clientRole": false,
+        "attributes": {
+          "tier": ["access"]
+        }
+      },
+      {
+        "name": "confidential-access",
+        "description": "Access to confidential institutional material.",
+        "composite": false,
+        "clientRole": false,
+        "attributes": {
+          "tier": ["access"]
+        }
+      },
+      {
+        "name": "member-directory-opt-in",
+        "description": "Opt-in visibility in member-facing directory features.",
+        "composite": false,
+        "clientRole": false,
+        "attributes": {
+          "tier": ["privacy"]
+        }
+      }
+    ],
+    "client": {
+      "ardtire-web-public": [
+        {
+          "name": "viewer",
+          "description": "Authenticated access to public-web enhanced features.",
+          "clientRole": true
+        }
+      ],
+      "ardtire-member-portal": [
+        {
+          "name": "portal-access",
+          "description": "Base access to the member portal.",
+          "clientRole": true
+        },
+        {
+          "name": "directory-admin",
+          "description": "Administrative control over member-directory features.",
+          "clientRole": true
+        }
+      ],
+      "ardtire-admin": [
+        {
+          "name": "console-access",
+          "description": "Administrative UI access.",
+          "clientRole": true
+        }
+      ],
+      "ardtire-cms": [
+        {
+          "name": "editor",
+          "description": "May edit non-canonical public content.",
+          "clientRole": true
+        },
+        {
+          "name": "publisher",
+          "description": "May publish approved content.",
+          "clientRole": true
+        },
+        {
+          "name": "gazette-manager",
+          "description": "May manage Gazette publication workflows.",
+          "clientRole": true
+        },
+        {
+          "name": "records-manager",
+          "description": "May manage records retention, archival, and metadata.",
+          "clientRole": true
+        }
+      ],
+      "ardtire-gov-api": [
+        {
+          "name": "proposer",
+          "description": "May submit proposals subject to application rules.",
+          "clientRole": true
+        },
+        {
+          "name": "seconder",
+          "description": "May second proposals where required.",
+          "clientRole": true
+        },
+        {
+          "name": "deliberation-participant",
+          "description": "May participate in formal deliberation.",
+          "clientRole": true
+        },
+        {
+          "name": "voter",
+          "description": "May cast votes subject to rule-based eligibility.",
+          "clientRole": true
+        },
+        {
+          "name": "reviewer",
+          "description": "May formally review submissions.",
+          "clientRole": true
+        },
+        {
+          "name": "clerk",
+          "description": "Procedural and records authority for governance workflows.",
+          "clientRole": true
+        },
+        {
+          "name": "returning-officer",
+          "description": "Authority to administer ballots and election processes.",
+          "clientRole": true
+        },
+        {
+          "name": "certifier",
+          "description": "May certify outcomes after procedural completion.",
+          "clientRole": true
+        },
+        {
+          "name": "ratifier",
+          "description": "May ratify outcomes where rules require ratification.",
+          "clientRole": true
+        },
+        {
+          "name": "committee-member",
+          "description": "Generic committee participation authority.",
+          "clientRole": true
+        },
+        {
+          "name": "committee-chair",
+          "description": "Committee chair authority.",
+          "clientRole": true
+        }
+      ],
+      "ardtire-decidim": [
+        {
+          "name": "participant",
+          "description": "Participation access for Decidim-facing civic workflows.",
+          "clientRole": true
+        },
+        {
+          "name": "process-admin",
+          "description": "Administrative control of Decidim processes.",
+          "clientRole": true
+        }
+      ],
+      "ardtire-backoffice-service": [
+        {
+          "name": "jobs-runner",
+          "description": "Machine role for trusted backoffice jobs.",
+          "clientRole": true
+        }
+      ]
+    }
+  },
+  "groups": [
+    {
+      "name": "memberships",
+      "path": "/memberships",
+      "subGroups": [
+        {
+          "name": "associates",
+          "path": "/memberships/associates",
+          "realmRoles": ["associate", "verified-user", "internal-access"],
+          "subGroups": []
+        },
+        {
+          "name": "members",
+          "path": "/memberships/members",
+          "realmRoles": ["member", "verified-user", "internal-access"],
+          "clientRoles": {
+            "ardtire-member-portal": ["portal-access"],
+            "ardtire-gov-api": ["proposer", "deliberation-participant", "voter"],
+            "ardtire-decidim": ["participant"]
+          },
+          "subGroups": []
+        },
+        {
+          "name": "founding-members",
+          "path": "/memberships/founding-members",
+          "realmRoles": ["founding-member", "member", "verified-user", "internal-access"],
+          "clientRoles": {
+            "ardtire-member-portal": ["portal-access"],
+            "ardtire-gov-api": ["proposer", "deliberation-participant", "voter"],
+            "ardtire-decidim": ["participant"]
+          },
+          "subGroups": []
+        }
+      ]
+    },
+    {
+      "name": "governance",
+      "path": "/governance",
+      "subGroups": [
+        {
+          "name": "officers",
+          "path": "/governance/officers",
+          "realmRoles": ["officer", "internal-access", "confidential-access"],
+          "subGroups": []
+        },
+        {
+          "name": "clerks",
+          "path": "/governance/clerks",
+          "realmRoles": ["officer", "internal-access", "confidential-access"],
+          "clientRoles": {
+            "ardtire-gov-api": ["clerk", "reviewer"],
+            "ardtire-member-portal": ["portal-access"]
+          },
+          "subGroups": []
+        },
+        {
+          "name": "returning-officers",
+          "path": "/governance/returning-officers",
+          "realmRoles": ["officer", "internal-access", "confidential-access"],
+          "clientRoles": {
+            "ardtire-gov-api": ["returning-officer", "certifier"],
+            "ardtire-member-portal": ["portal-access"]
+          },
+          "subGroups": []
+        },
+        {
+          "name": "ratifiers",
+          "path": "/governance/ratifiers",
+          "realmRoles": ["officer", "internal-access", "confidential-access"],
+          "clientRoles": {
+            "ardtire-gov-api": ["ratifier"],
+            "ardtire-member-portal": ["portal-access"]
+          },
+          "subGroups": []
+        },
+        {
+          "name": "constitutional-committee",
+          "path": "/governance/constitutional-committee",
+          "realmRoles": ["internal-access", "confidential-access"],
+          "clientRoles": {
+            "ardtire-gov-api": ["committee-member", "deliberation-participant"],
+            "ardtire-member-portal": ["portal-access"],
+            "ardtire-decidim": ["participant"]
+          },
+          "subGroups": []
+        }
+      ]
+    },
+    {
+      "name": "operations",
+      "path": "/operations",
+      "subGroups": [
+        {
+          "name": "admins",
+          "path": "/operations/admins",
+          "realmRoles": ["admin", "internal-access", "confidential-access"],
+          "clientRoles": {
+            "ardtire-admin": ["console-access"],
+            "ardtire-member-portal": ["portal-access"],
+            "ardtire-cms": ["editor", "publisher", "gazette-manager", "records-manager"]
+          },
+          "subGroups": []
+        },
+        {
+          "name": "iam-admins",
+          "path": "/operations/iam-admins",
+          "realmRoles": ["iam-admin", "internal-access", "confidential-access"],
+          "clientRoles": {
+            "ardtire-admin": ["console-access"]
+          },
+          "subGroups": []
+        },
+        {
+          "name": "support",
+          "path": "/operations/support",
+          "realmRoles": ["support", "internal-access"],
+          "clientRoles": {
+            "ardtire-admin": ["console-access"]
+          },
+          "subGroups": []
+        },
+        {
+          "name": "auditors",
+          "path": "/operations/auditors",
+          "realmRoles": ["auditor", "internal-access", "confidential-access"],
+          "clientRoles": {
+            "ardtire-admin": ["console-access"],
+            "ardtire-member-portal": ["portal-access"]
+          },
+          "subGroups": []
+        },
+        {
+          "name": "editors",
+          "path": "/operations/editors",
+          "realmRoles": ["internal-access"],
+          "clientRoles": {
+            "ardtire-cms": ["editor"],
+            "ardtire-member-portal": ["portal-access"]
+          },
+          "subGroups": []
+        },
+        {
+          "name": "publishers",
+          "path": "/operations/publishers",
+          "realmRoles": ["internal-access", "confidential-access"],
+          "clientRoles": {
+            "ardtire-cms": ["publisher", "gazette-manager", "records-manager"],
+            "ardtire-member-portal": ["portal-access"]
+          },
+          "subGroups": []
+        },
+        {
+          "name": "service-accounts",
+          "path": "/operations/service-accounts",
+          "clientRoles": {
+            "ardtire-backoffice-service": ["jobs-runner"]
+          },
+          "subGroups": []
+        }
+      ]
+    }
+  ],
+  "defaultDefaultClientScopes": [
+    "web-origins",
+    "acr",
+    "roles",
+    "profile",
+    "email"
+  ],
+  "defaultOptionalClientScopes": [
+    "address",
+    "phone",
+    "offline_access",
+    "microprofile-jwt"
+  ],
+  "clientScopes": [
+    {
+      "name": "ardtire-membership",
+      "description": "Membership and institutional status claims for Ardtire applications.",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "false",
+        "gui.order": "1"
+      },
+      "protocolMappers": [
+        {
+          "name": "membership-standing",
+          "protocol": "openid-connect",
+          "protocolMapper": "user-attribute",
+          "consentRequired": false,
+          "config": {
+            "user.attribute": "membershipStanding",
+            "claim.name": "membership_standing",
+            "jsonType.label": "String",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
+          }
+        },
+        {
+          "name": "member-tier",
+          "protocol": "openid-connect",
+          "protocolMapper": "user-attribute",
+          "consentRequired": false,
+          "config": {
+            "user.attribute": "memberTier",
+            "claim.name": "member_tier",
+            "jsonType.label": "String",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
+          }
+        },
+        {
+          "name": "directory-opt-in",
+          "protocol": "openid-connect",
+          "protocolMapper": "user-attribute",
+          "consentRequired": false,
+          "config": {
+            "user.attribute": "memberDirectoryOptIn",
+            "claim.name": "member_directory_opt_in",
+            "jsonType.label": "boolean",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ardtire-governance",
+      "description": "Governance eligibility and placement claims for Ardtire applications.",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "false",
+        "gui.order": "2"
+      },
+      "protocolMappers": [
+        {
+          "name": "governance-body",
+          "protocol": "openid-connect",
+          "protocolMapper": "user-attribute",
+          "consentRequired": false,
+          "config": {
+            "user.attribute": "governanceBody",
+            "claim.name": "governance_body",
+            "jsonType.label": "String",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
+          }
+        },
+        {
+          "name": "eligibility-version",
+          "protocol": "openid-connect",
+          "protocolMapper": "user-attribute",
+          "consentRequired": false,
+          "config": {
+            "user.attribute": "eligibilityRuleVersion",
+            "claim.name": "eligibility_rule_version",
+            "jsonType.label": "String",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
+          }
+        }
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "ardtire-web-public",
+      "name": "Ardtire Public Web",
+      "description": "Public-facing Ardtire website frontend.",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "bearerOnly": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "fullScopeAllowed": false,
+      "redirectUris": [
+        "http://localhost:3000/*",
+        "https://www.ardtiresociety.org/*"
+      ],
+      "webOrigins": [
+        "http://localhost:3000",
+        "https://www.ardtiresociety.org"
+      ],
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "email",
+        "ardtire-membership"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt",
+        "ardtire-governance"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "+"
+      }
+    },
+    {
+      "clientId": "ardtire-member-portal",
+      "name": "Ardtire Member Portal",
+      "description": "Authenticated member portal frontend.",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "bearerOnly": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "fullScopeAllowed": false,
+      "redirectUris": [
+        "http://localhost:3001/*",
+        "https://my.ardtiresociety.org/*"
+      ],
+      "webOrigins": [
+        "http://localhost:3001",
+        "https://my.ardtiresociety.org"
+      ],
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "email",
+        "ardtire-membership",
+        "ardtire-governance"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "+"
+      }
+    },
+    {
+      "clientId": "ardtire-admin",
+      "name": "Ardtire Admin",
+      "description": "Administrative frontend for internal Ardtire operations.",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "bearerOnly": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "fullScopeAllowed": false,
+      "redirectUris": [
+        "http://localhost:3002/*",
+        "https://admin.ardtiresociety.org/*"
+      ],
+      "webOrigins": [
+        "http://localhost:3002",
+        "https://admin.ardtiresociety.org"
+      ],
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "email",
+        "ardtire-membership",
+        "ardtire-governance"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "+"
+      }
+    },
+    {
+      "clientId": "ardtire-cms",
+      "name": "Ardtire CMS",
+      "description": "Payload CMS application.",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "bearerOnly": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": true,
+      "fullScopeAllowed": false,
+      "secret": "${KEYCLOAK_CLIENT_SECRET_ARDTIRE_CMS}",
+      "redirectUris": [
+        "http://localhost:3003/*",
+        "https://cms.ardtiresociety.org/*"
+      ],
+      "webOrigins": [
+        "http://localhost:3003",
+        "https://cms.ardtiresociety.org"
+      ],
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "email",
+        "ardtire-membership"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt",
+        "ardtire-governance"
+      ],
+      "attributes": {
+        "post.logout.redirect.uris": "+"
+      }
+    },
+    {
+      "clientId": "ardtire-gov-api",
+      "name": "Ardtire Governance API",
+      "description": "Canonical governance API and policy enforcement service.",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "bearerOnly": true,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "fullScopeAllowed": false,
+      "defaultClientScopes": [
+        "acr",
+        "roles",
+        "profile",
+        "email",
+        "ardtire-membership",
+        "ardtire-governance"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    },
+    {
+      "clientId": "ardtire-decidim",
+      "name": "Ardtire Decidim",
+      "description": "Decidim participation surface.",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "bearerOnly": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": true,
+      "fullScopeAllowed": false,
+      "secret": "${KEYCLOAK_CLIENT_SECRET_ARDTIRE_DECIDIM}",
+      "redirectUris": [
+        "http://localhost:3004/*",
+        "https://gov.ardtiresociety.org/*"
+      ],
+      "webOrigins": [
+        "http://localhost:3004",
+        "https://gov.ardtiresociety.org"
+      ],
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "email",
+        "ardtire-membership",
+        "ardtire-governance"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ],
+      "attributes": {
+        "post.logout.redirect.uris": "+"
+      }
+    },
+    {
+      "clientId": "ardtire-backoffice-service",
+      "name": "Ardtire Backoffice Service",
+      "description": "Service account client for internal automation and trusted background jobs.",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "bearerOnly": false,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": true,
+      "fullScopeAllowed": false,
+      "secret": "${KEYCLOAK_CLIENT_SECRET_ARDTIRE_BACKOFFICE}",
+      "defaultClientScopes": [
+        "acr",
+        "roles",
+        "profile",
+        "email",
+        "ardtire-membership",
+        "ardtire-governance"
+      ],
+      "optionalClientScopes": [
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    }
+  ],
+  "users": []
+}
