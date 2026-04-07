@@ -1,0 +1,18 @@
+{
+  "name": "bun-monorepo",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+  "postCreateCommand": "bash -lc 'curl -fsSL https://bun.sh/install | bash && source ~/.bashrc && bun install'",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "biomejs.biome",
+        "ms-playwright.playwright",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  }
+}

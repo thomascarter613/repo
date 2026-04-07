@@ -1,0 +1,46 @@
+{
+  "name": "@repo/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev --port 3000",
+    "build": "vite build",
+    "start": "node .output/server/index.mjs",
+    "typecheck": "tsc -b --pretty false",
+    "lint": "biome check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui"
+  },
+  "dependencies": {
+    "@repo/contracts": "workspace:*",
+    "@repo/shared": "workspace:*",
+    "@solidjs/meta": "^0.29.4",
+    "@tanstack/solid-query": "^5.90.2",
+    "@tanstack/solid-router": "^1.168.1",
+    "@tanstack/solid-start": "^1.167.15",
+    "solid-js": "^1.9.9",
+    "@kobalte/core": "^0.13.11",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.3.1",
+    "@tanstack/solid-form": "^1.28.0",
+    "@repo/config": "workspace:*"
+  },
+  "devDependencies": {
+    "@tanstack/router-plugin": "^1.167.12",
+    "@testing-library/jest-dom": "^6.8.0",
+    "@solidjs/testing-library": "^0.8.10",
+    "@types/node": "^24.3.0",
+    "jsdom": "^26.1.0",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.3",
+    "vite-plugin-solid": "^2.11.8",
+    "vitest": "^3.2.4",
+    "@tailwindcss/vite": "^4.1.12",
+    "tailwindcss": "^4.1.12",
+    "@testing-library/dom": "^10.4.0",
+    "@vitest/ui": "^3.2.4"
+  }
+}

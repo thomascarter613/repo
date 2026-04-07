@@ -1,0 +1,21 @@
+{
+  "name": "@repo/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@repo/config": "workspace:*",
+    "@repo/contracts": "workspace:*",
+    "@repo/observability": "workspace:*",
+    "@repo/shared": "workspace:*",
+    "hono": "4.9.5"
+  },
+  "scripts": {
+    "dev": "bun --watch src/index.ts",
+    "build": "tsc -b",
+    "typecheck": "tsc -b --pretty false",
+    "lint": "biome check .",
+    "test": "bun test",
+    "start": "bun src/index.ts"
+  }
+}
