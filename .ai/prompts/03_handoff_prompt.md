@@ -32,3 +32,4 @@ Do provide an explicit, concise next-step rationale that another session can act
 
 Session facts to hand off:
 [PASTE FINAL SESSION NOTES HERE]
+```

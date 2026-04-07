@@ -25,11 +25,24 @@
     "project": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["name", "code_name", "repository_role"],
+      "required": [
+        "name",
+        "code_name",
+        "repository_role"
+      ],
       "properties": {
-        "name": { "type": "string", "minLength": 1 },
-        "code_name": { "type": "string", "minLength": 1 },
-        "repository_role": { "type": "string", "minLength": 1 }
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "code_name": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-_]{1,63}$"
+        },
+        "repository_role": {
+          "type": "string",
+          "minLength": 1
+        }
       }
     },
     "mission": {
@@ -39,59 +52,124 @@
     "rules": {
       "type": "array",
       "minItems": 1,
-      "items": { "type": "string", "minLength": 1 },
-      "uniqueItems": true
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
     },
     "canonical_locations": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["memory_source", "compiled_context", "compiler", "workflow"],
+      "required": [
+        "memory_source",
+        "compiled_context",
+        "compiler",
+        "initializer",
+        "workflow"
+      ],
       "properties": {
-        "memory_source": { "type": "string", "minLength": 1 },
-        "compiled_context": { "type": "string", "minLength": 1 },
-        "compiler": { "type": "string", "minLength": 1 },
-        "workflow": { "type": "string", "minLength": 1 }
+        "memory_source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "compiled_context": {
+          "type": "string",
+          "minLength": 1
+        },
+        "compiler": {
+          "type": "string",
+          "minLength": 1
+        },
+        "initializer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workflow": {
+          "type": "string",
+          "minLength": 1
+        }
       }
     },
     "session_contract": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["bootstrap_reads", "checkpoint_updates", "handoff_updates", "required_output"],
+      "required": [
+        "bootstrap_reads",
+        "checkpoint_updates",
+        "handoff_updates",
+        "required_output"
+      ],
       "properties": {
         "bootstrap_reads": {
           "type": "array",
           "minItems": 1,
-          "items": { "type": "string", "minLength": 1 },
-          "uniqueItems": true
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         },
         "checkpoint_updates": {
           "type": "array",
           "minItems": 1,
-          "items": { "type": "string", "minLength": 1 },
-          "uniqueItems": true
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         },
         "handoff_updates": {
           "type": "array",
           "minItems": 1,
-          "items": { "type": "string", "minLength": 1 },
-          "uniqueItems": true
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         },
         "required_output": {
           "type": "array",
           "minItems": 1,
-          "items": { "type": "string", "minLength": 1 },
-          "uniqueItems": true
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         }
       }
     },
     "naming": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["task_id_pattern", "decision_id_pattern", "branch_hint_pattern"],
+      "required": [
+        "task_id_regex",
+        "decision_id_regex",
+        "risk_id_regex",
+        "blocker_id_regex",
+        "branch_hint_pattern"
+      ],
       "properties": {
-        "task_id_pattern": { "type": "string", "pattern": "^\\^TASK-\\[0-9\\]\\{3,\\}\\$$" },
-        "decision_id_pattern": { "type": "string", "pattern": "^\\^ADR-\\[0-9\\]\\{3,\\}\\$$" },
-        "branch_hint_pattern": { "type": "string", "minLength": 1 }
+        "task_id_regex": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decision_id_regex": {
+          "type": "string",
+          "minLength": 1
+        },
+        "risk_id_regex": {
+          "type": "string",
+          "minLength": 1
+        },
+        "blocker_id_regex": {
+          "type": "string",
+          "minLength": 1
+        },
+        "branch_hint_pattern": {
+          "type": "string",
+          "minLength": 1
+        }
       }
     }
   }

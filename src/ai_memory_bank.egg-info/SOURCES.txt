@@ -15,5 +15,6 @@ src/ai_memory_bank.egg-info/dependency_links.txt
 src/ai_memory_bank.egg-info/entry_points.txt
 src/ai_memory_bank.egg-info/requires.txt
 src/ai_memory_bank.egg-info/top_level.txt
+tests/test_cli_integration.py
 tests/test_compiler.py
 tests/test_packets.py

@@ -1,8 +1,8 @@
 # LATEST_CONTEXT
 
 ```yaml
-generated_at_utc: '2026-04-07T04:06:52Z'
-session_id: final-test
+generated_at_utc: '2026-04-07T14:45:47Z'
+session_id: test-v5.1
 compiled_file: .ai/LATEST_CONTEXT.md
 source_root: .ai/memory
 source_files:
@@ -11,8 +11,13 @@ source_files:
 - .ai/memory/03_logic_map.md
 - .ai/memory/04_active_buffer.md
 source_fingerprint: f6b8036ca705
+validation:
+  files_validated: 5
+  schema_files_loaded: 4
+  strict_schema_files_validated: 5
+  validator: jsonschema.Draft202012Validator
 archived_completed_tasks_in_this_run: 0
-active_roadmap_tasks: 4
+active_roadmap_tasks: 3
 ```
 
 > This file is generated. Edit source state in `.ai/memory/`, not here.
@@ -23,8 +28,8 @@ active_roadmap_tasks: 4
 kind: global_context
 schema_version: 1
 project:
-  name: Example Project
-  code_name: save-game
+  name: Repository Memory Bank
+  code_name: repository-memory-bank
   repository_role: canonical persistent context store
 mission: Preserve durable engineering context across disconnected chat sessions while
   keeping the active state compact, reviewable, and git-auditable.
@@ -38,6 +43,7 @@ canonical_locations:
   memory_source: .ai/memory/
   compiled_context: .ai/LATEST_CONTEXT.md
   compiler: .ai/scripts/aggregate.py
+  initializer: .ai/scripts/init_memory_bank.py
   workflow: .github/workflows/sync.yml
 session_contract:
   bootstrap_reads:
@@ -54,8 +60,10 @@ session_contract:
   - files touched or intended
   - decisions made or deferred
 naming:
-  task_id_pattern: TASK-###
-  decision_id_pattern: ADR-###
+  task_id_regex: ^TASK-[0-9]{3,}$
+  decision_id_regex: ^ADR-[0-9]{3,}$
+  risk_id_regex: ^RISK-[0-9]{3,}$
+  blocker_id_regex: ^BLK-[0-9]{3,}$
   branch_hint_pattern: feat/<topic> | fix/<topic> | docs/<topic>
 ```
 
@@ -76,47 +84,49 @@ Keep this file compact. Anything that changes often belongs in the roadmap or ac
 kind: roadmap
 schema_version: 1
 current_phase: foundation
-active_objective: Build and operationalize the Git-backed long-term memory bank.
+active_objective: Stand up and verify the Git-backed long-term memory bank.
 tasks:
 - id: TASK-001
-  title: Define the memory folder schema and file contracts.
+  title: Initialize the memory bank and verify the compiler loop.
   status: in_progress
   priority: P0
   depends_on: []
   acceptance:
-  - All four core state files exist.
-  - Each file has valid YAML front matter.
+  - Canonical memory files exist.
+  - The compiler generates .ai/LATEST_CONTEXT.md.
+  - The repository can resume from compiled context.
+  files:
+  - .ai/memory/01_global_context.md
+  - .ai/memory/02_roadmap.md
+  - .ai/memory/03_logic_map.md
+  - .ai/memory/04_active_buffer.md
+  - .ai/scripts/aggregate.py
 - id: TASK-002
-  title: Implement the context compiler.
-  status: in_progress
+  title: Enable automated sync workflow for compiled context.
+  status: planned
   priority: P0
   depends_on:
   - TASK-001
   acceptance:
-  - Compiler validates front matter.
-  - Compiler generates .ai/LATEST_CONTEXT.md.
-  - Compiler strips HTML comments and redundant whitespace.
+  - GitHub Action runs when memory state changes.
+  - Generated context is committed automatically when it changes.
+  files:
+  - .github/workflows/sync.yml
 - id: TASK-003
-  title: Add automated sync workflow.
-  status: planned
-  priority: P0
-  depends_on:
-  - TASK-002
-  acceptance:
-  - GitHub Action runs on pushes affecting .ai/memory.
-  - Generated context is auto-committed if changed.
-- id: TASK-004
-  title: Record initial bootstrap prompts.
+  title: Validate prompt-driven checkpoint and handoff flow.
   status: planned
   priority: P1
   depends_on:
-  - TASK-002
+  - TASK-001
   acceptance:
-  - Bootstrap prompt exists.
-  - Checkpoint prompt exists.
-  - Handoff prompt exists.
-last_review_utc: 2026-04-07 00:00:00+00:00
-last_pruned_utc: '2026-04-07T04:04:44Z'
+  - Bootstrap prompt restores state correctly.
+  - Checkpoint prompt produces valid canonical updates.
+  - Handoff prompt produces a usable resurrection packet.
+  files:
+  - .ai/prompts/01_bootstrap_prompt.md
+  - .ai/prompts/02_checkpoint_prompt.md
+  - .ai/prompts/03_handoff_prompt.md
+last_review_utc: '2026-04-07T13:08:53Z'
 ```
 
 # Progress Ledger
@@ -138,36 +148,79 @@ system_model:
   summary: The repository is the durable state machine. Source memory files are the
     mutable state registers. The compiler is the reducer. The compiled context is
     the loadable save game.
+  source_of_truth: .ai/memory/
+  reducer: .ai/scripts/aggregate.py
+  compiled_artifact: .ai/LATEST_CONTEXT.md
 components:
 - name: memory_source
   location: .ai/memory/
   responsibility: human-editable durable state
+  outputs:
+  - canonical long-term memory state
+- name: templates
+  location: .ai/templates/
+  responsibility: reusable blueprints for initializing canonical state
+  outputs:
+  - seed content for the initializer
+- name: initializer
+  location: .ai/scripts/init_memory_bank.py
+  responsibility: generate canonical seed state from templates
+  inputs:
+  - project metadata
+  - initial objective
+  outputs:
+  - .ai/memory/*.md
 - name: compiler
   location: .ai/scripts/aggregate.py
   responsibility: validation, pruning, normalization, context compilation
-- name: compiled_context
-  location: .ai/LATEST_CONTEXT.md
-  responsibility: single-file bootstrap artifact for new chats
+  inputs:
+  - .ai/memory/*.md
+  - .ai/schemas/*.json
+  outputs:
+  - .ai/LATEST_CONTEXT.md
 - name: sync_workflow
   location: .github/workflows/sync.yml
   responsibility: automatic regeneration and commit-back
 flows:
-- trigger: user edits .ai/memory/*.md
+- trigger: user initializes or updates .ai/memory/*.md
   path:
-  - validate front matter
+  - validate YAML front matter
+  - validate JSON Schema contracts
   - prune completed roadmap tasks
   - normalize content
   - compile .ai/LATEST_CONTEXT.md
   - commit generated updates
+  outcome: latest compiled state stays aligned with canonical memory
 - trigger: new chat starts
   path:
   - paste or attach .ai/LATEST_CONTEXT.md
   - run bootstrap prompt
   - verify state synchronization
+  outcome: assistant resumes from durable repo state instead of prior chat history
+interfaces:
+- name: canonical_memory_files
+  type: file
+  contract: Each core memory file must have valid YAML front matter and match its
+    schema.
+- name: context_compiler
+  type: script
+  contract: Fails closed on malformed YAML or schema violations and regenerates compiled
+    context.
+- name: sync_workflow
+  type: workflow
+  contract: Rebuilds compiled context on state changes and commits only when generated
+    files differ.
+failure_modes:
+- condition: malformed YAML or schema-invalid handoff
+  behavior: compiler exits non-zero and does not emit a misleading compiled context
+  mitigation: fix canonical source file until validation passes
+- condition: active roadmap grows without pruning
+  behavior: compiled context becomes noisier and more token-expensive
+  mitigation: mark finished tasks completed and let the compiler archive them
 invariants:
-- LATEST_CONTEXT.md is generated, never canonical.
-- Active work lives in roadmap and active_buffer.
-- Completed work is archived and not kept in the active task window.
+- .ai/LATEST_CONTEXT.md is generated and never canonical.
+- .ai/memory/ is the source of truth for long-term state.
+- Templates are blueprints, not live project state.
 - Validation failures must stop compilation.
 ```
 
@@ -175,14 +228,16 @@ invariants:
 
 ## State Machine View
 
-1. `.ai/memory/*.md` = mutable state registers.
-2. `aggregate.py` = reducer + validator + compactor.
-3. `.ai/LATEST_CONTEXT.md` = serialized load state.
-4. Git history = audit log of memory evolution.
+1. `.ai/templates/*.template.md` = blueprint layer
+2. `.ai/scripts/init_memory_bank.py` = seed-state generator
+3. `.ai/memory/*.md` = mutable canonical state registers
+4. `.ai/scripts/aggregate.py` = reducer + validator + compactor
+5. `.ai/LATEST_CONTEXT.md` = serialized load state
+6. Git history = audit trail of memory evolution
 
 ## Failure Policy
 
-Fail closed on malformed YAML. A broken handoff should never silently poison future sessions.
+Fail closed on malformed YAML and schema violations. A broken handoff should never silently poison future sessions.
 
 ## .ai/memory/04_active_buffer.md
 
@@ -190,35 +245,59 @@ Fail closed on malformed YAML. A broken handoff should never silently poison fut
 kind: active_buffer
 schema_version: 1
 session:
-  id: local-bootstrap
-  started_at_utc: 2026-04-07 00:00:00+00:00
-  operator_goal: Stand up the initial memory bank scaffold.
+  id: bootstrap
+  started_at_utc: '2026-04-07T13:08:53Z'
+  operator_goal: Stand up and verify the Git-backed long-term memory bank.
 focus:
   current_problem: Need a reliable save-game mechanism for cross-session continuity
     in disconnected web chats.
-  current_slice: repo-backed long-term memory bank
+  current_slice: long-term memory bank bootstrap
 working_set:
   files_in_play:
   - .ai/memory/01_global_context.md
   - .ai/memory/02_roadmap.md
   - .ai/memory/03_logic_map.md
   - .ai/memory/04_active_buffer.md
+  - .ai/scripts/init_memory_bank.py
   - .ai/scripts/aggregate.py
   - .github/workflows/sync.yml
+  recent_decisions:
+  - The repository stores durable state; compiled context is generated.
+  - Prompt files live in .ai/prompts/, not in .ai/memory/.
+  assumptions:
+  - The repository will use GitHub Actions for automatic sync.
 next_actions:
-- Finalize the compiler.
-- Run the compiler locally and verify output.
-- Enable the GitHub Action and confirm commit-back behavior.
+- order: 1
+  title: Verify canonical seed files and regenerate compiled context.
+  type: verify
+  target: .ai/scripts/aggregate.py
+  success_signal: The compiler exits zero and .ai/LATEST_CONTEXT.md is regenerated.
+- order: 2
+  title: Confirm the workflow can commit generated updates.
+  type: verify
+  target: .github/workflows/sync.yml
+  success_signal: The sync workflow can push changes after memory edits.
 risks:
-- Malformed YAML in front matter can break future bootstraps.
-- Overlong handoffs can bloat token budgets.
-- Auto-commit loops must be prevented by path scoping and generated-file placement.
+- id: RISK-001
+  title: Malformed YAML can poison future bootstraps if not rejected
+  severity: high
+  mitigation: Fail closed with schema validation before compilation
+  status: open
+- id: RISK-002
+  title: Active context can become too large over time
+  severity: medium
+  mitigation: Keep the active roadmap lean and archive completed work automatically
+  status: open
 blockers: []
 resurrection_packet:
-  resume_from: Verify compiled output and archive behavior.
-  intended_first_move: Run the compiler against the current scaffold and inspect .ai/LATEST_CONTEXT.md.
-  rationale_summary: The next highest-value step is to validate the full loop end-to-end
-    before expanding schema depth.
+  resume_from: Verify the initialized canonical state and compiler output.
+  intended_first_move: Run the compiler and inspect .ai/LATEST_CONTEXT.md for correctness.
+  rationale_summary: The highest-value next move is to prove the initialization and
+    compilation loop end-to-end.
+  files_likely_next:
+  - .ai/memory/02_roadmap.md
+  - .ai/memory/04_active_buffer.md
+  - .ai/LATEST_CONTEXT.md
 ```
 
 # Live Handoff State

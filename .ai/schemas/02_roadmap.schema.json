@@ -21,7 +21,14 @@
     },
     "current_phase": {
       "type": "string",
-      "enum": ["foundation", "planning", "implementation", "stabilization", "maintenance", "archive"]
+      "enum": [
+        "foundation",
+        "planning",
+        "implementation",
+        "stabilization",
+        "maintenance",
+        "archive"
+      ]
     },
     "active_objective": {
       "type": "string",
@@ -33,7 +40,14 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "title", "status", "priority", "depends_on", "acceptance"],
+        "required": [
+          "id",
+          "title",
+          "status",
+          "priority",
+          "depends_on",
+          "acceptance"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -45,11 +59,23 @@
           },
           "status": {
             "type": "string",
-            "enum": ["planned", "in_progress", "blocked", "completed", "done", "cancelled"]
+            "enum": [
+              "planned",
+              "in_progress",
+              "blocked",
+              "completed",
+              "done",
+              "cancelled"
+            ]
           },
           "priority": {
             "type": "string",
-            "enum": ["P0", "P1", "P2", "P3"]
+            "enum": [
+              "P0",
+              "P1",
+              "P2",
+              "P3"
+            ]
           },
           "depends_on": {
             "type": "array",

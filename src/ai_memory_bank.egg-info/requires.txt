@@ -1,2 +1,6 @@
 typer<1.0,>=0.20
 PyYAML<7,>=6
+
+[dev]
+pytest<9,>=8
+pre-commit<5,>=4.5

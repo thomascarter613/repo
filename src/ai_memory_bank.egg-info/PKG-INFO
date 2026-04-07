@@ -6,6 +6,9 @@ Requires-Python: >=3.11
 Description-Content-Type: text/markdown
 Requires-Dist: typer<1.0,>=0.20
 Requires-Dist: PyYAML<7,>=6
+Provides-Extra: dev
+Requires-Dist: pytest<9,>=8; extra == "dev"
+Requires-Dist: pre-commit<5,>=4.5; extra == "dev"
 
 # AI Memory Bank CLI
 
@@ -25,5 +28,26 @@ Git-backed long-term memory bank tooling for persistent AI development context.
 ## Install
 
 ```bash
-python -m pip install -e .
+python -m pip install -e ".[dev]"
+pre-commit install --hook-type pre-commit --hook-type pre-push
+pre-commit run --all-files
 ```
+
+## What the automation layer does
+
+- validates YAML and repo hygiene locally with `pre-commit`
+- recompiles `LATEST_CONTEXT.md` before commit
+- runs tests before push
+- recompiles and commits memory snapshots automatically on pushes to `.ai/memory/**`
+
+## Generated vs committed files
+
+Committed:
+- `.ai/memory/**`
+- `.ai/compiled/LATEST_CONTEXT.md`
+- `.ai/compiled/snapshots/**`
+- `.ai/memory/archive.log`
+
+Generated and ignored:
+- `.ai/runtime/**`
+- Python and test caches

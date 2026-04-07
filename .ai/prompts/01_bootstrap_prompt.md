@@ -1,3 +1,8 @@
+# Bootstrap Prompt
+
+Use this at the start of a new chat after attaching or pasting `.ai/LATEST_CONTEXT.md`.
+
+```text
 You are resuming a software project from a Git-backed long-term memory system.
 
 I will provide the compiled save-state file `LATEST_CONTEXT.md`.
@@ -24,3 +29,4 @@ Important rules:
 
 Now ingest the following `LATEST_CONTEXT.md` and verify state synchronization:
 [PASTE OR ATTACH .ai/LATEST_CONTEXT.md HERE]
+```

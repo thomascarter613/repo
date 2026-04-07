@@ -31,17 +31,22 @@ class ApplyResult:
 def parse_packet_text(packet_text: str) -> ParsedPacket:
     matches = list(FILE_HEADER_PATTERN.finditer(packet_text))
     files: dict[str, str] = {}
+    monologue_start = packet_text.find(INTERNAL_MONOLOGUE_HEADER)
 
     for index, match in enumerate(matches):
         start = match.end()
-        end = matches[index + 1].start() if index + 1 < len(matches) else len(packet_text)
-        body = packet_text[start:end]
+        next_file_start = matches[index + 1].start() if index + 1 < len(matches) else len(packet_text)
+        end = next_file_start
+
+        if monologue_start != -1 and start < monologue_start < end:
+            end = monologue_start
+
         path = match.group("path").strip()
-        files[path] = body.strip() + "\n"
+        files[path] = packet_text[start:end].strip() + "\n"
 
     internal_monologue = None
-    if INTERNAL_MONOLOGUE_HEADER in packet_text:
-        internal_monologue = packet_text.split(INTERNAL_MONOLOGUE_HEADER, 1)[1].strip() + "\n"
+    if monologue_start != -1:
+        internal_monologue = packet_text[monologue_start + len(INTERNAL_MONOLOGUE_HEADER) :].strip() + "\n"
 
     return ParsedPacket(files=files, internal_monologue=internal_monologue)
 

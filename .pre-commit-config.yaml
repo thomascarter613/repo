@@ -1,0 +1,36 @@
+minimum_pre_commit_version: "4.5.1"
+default_install_hook_types: [pre-commit, pre-push]
+fail_fast: true
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  - repo: local
+    hooks:
+      - id: ai-memory-doctor
+        name: ai-sync doctor
+        entry: ai-sync doctor
+        language: system
+        pass_filenames: false
+        files: ^(\.ai/|src/ai_memory_bank/|tests/|pyproject\.toml|README\.md)$
+
+      - id: ai-memory-compile
+        name: ai-sync compile --no-snapshot
+        entry: ai-sync compile --no-snapshot
+        language: system
+        pass_filenames: false
+        files: ^(\.ai/memory/|src/ai_memory_bank/|pyproject\.toml)$
+        stages: [pre-commit]
+
+      - id: ai-memory-tests
+        name: python -m pytest -q
+        entry: python -m pytest -q
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+        files: ^(\.ai/|src/ai_memory_bank/|tests/|pyproject\.toml)$

@@ -154,12 +154,13 @@ def apply(
 ) -> None:
     settings = _load_settings()
     packet_text = _read_input(packet)
+    stage_after = False if no_stage else None
     result = apply_packet_text(
         packet_text=packet_text,
         settings=settings,
         dry_run=dry_run,
         compile_after=not no_compile,
-        stage_after=not no_stage,
+        stage_after=stage_after,
         commit_message=commit_message,
     )
 

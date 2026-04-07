@@ -1,4 +1,3 @@
-from ai_memory_bank.config import ensure_directories, load_settings
 from ai_memory_bank.packets import parse_packet_text
 
 
@@ -24,11 +23,4 @@ Need to update the architecture doc next.
     assert ".ai/memory/02_roadmap.md" in parsed.files
     assert ".ai/memory/04_active_buffer.md" in parsed.files
     assert "Need to update the architecture doc next." in parsed.internal_monologue
-
-
-def test_settings_load_from_repo(tmp_path, monkeypatch):
-    (tmp_path / ".git").mkdir()
-    monkeypatch.chdir(tmp_path)
-    settings = load_settings()
-    ensure_directories(settings)
-    assert settings.paths.memory_dir.exists()
+    assert "INTERNAL_MONOLOGUE" not in parsed.files[".ai/memory/04_active_buffer.md"]

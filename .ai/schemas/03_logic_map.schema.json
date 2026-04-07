@@ -23,12 +23,29 @@
     "system_model": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["summary", "source_of_truth", "reducer", "compiled_artifact"],
+      "required": [
+        "summary",
+        "source_of_truth",
+        "reducer",
+        "compiled_artifact"
+      ],
       "properties": {
-        "summary": { "type": "string", "minLength": 1 },
-        "source_of_truth": { "type": "string", "minLength": 1 },
-        "reducer": { "type": "string", "minLength": 1 },
-        "compiled_artifact": { "type": "string", "minLength": 1 }
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_of_truth": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reducer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "compiled_artifact": {
+          "type": "string",
+          "minLength": 1
+        }
       }
     },
     "components": {
@@ -37,24 +54,47 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["name", "location", "responsibility"],
+        "required": [
+          "name",
+          "location",
+          "responsibility"
+        ],
         "properties": {
-          "name": { "type": "string", "minLength": 1 },
-          "location": { "type": "string", "minLength": 1 },
-          "responsibility": { "type": "string", "minLength": 1 },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "location": {
+            "type": "string",
+            "minLength": 1
+          },
+          "responsibility": {
+            "type": "string",
+            "minLength": 1
+          },
           "inputs": {
             "type": "array",
-            "items": { "type": "string", "minLength": 1 },
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
             "uniqueItems": true
           },
           "outputs": {
             "type": "array",
-            "items": { "type": "string", "minLength": 1 },
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
             "uniqueItems": true
           },
           "invariants": {
             "type": "array",
-            "items": { "type": "string", "minLength": 1 }
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
           }
         }
       }
@@ -65,15 +105,28 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["trigger", "path", "outcome"],
+        "required": [
+          "trigger",
+          "path",
+          "outcome"
+        ],
         "properties": {
-          "trigger": { "type": "string", "minLength": 1 },
+          "trigger": {
+            "type": "string",
+            "minLength": 1
+          },
           "path": {
             "type": "array",
             "minItems": 1,
-            "items": { "type": "string", "minLength": 1 }
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
           },
-          "outcome": { "type": "string", "minLength": 1 }
+          "outcome": {
+            "type": "string",
+            "minLength": 1
+          }
         }
       }
     },
@@ -82,11 +135,30 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["name", "type", "contract"],
+        "required": [
+          "name",
+          "type",
+          "contract"
+        ],
         "properties": {
-          "name": { "type": "string", "minLength": 1 },
-          "type": { "type": "string", "enum": ["file", "script", "workflow", "prompt", "automation"] },
-          "contract": { "type": "string", "minLength": 1 }
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "file",
+              "script",
+              "workflow",
+              "prompt",
+              "automation"
+            ]
+          },
+          "contract": {
+            "type": "string",
+            "minLength": 1
+          }
         }
       }
     },
@@ -95,11 +167,24 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["condition", "behavior", "mitigation"],
+        "required": [
+          "condition",
+          "behavior",
+          "mitigation"
+        ],
         "properties": {
-          "condition": { "type": "string", "minLength": 1 },
-          "behavior": { "type": "string", "minLength": 1 },
-          "mitigation": { "type": "string", "minLength": 1 }
+          "condition": {
+            "type": "string",
+            "minLength": 1
+          },
+          "behavior": {
+            "type": "string",
+            "minLength": 1
+          },
+          "mitigation": {
+            "type": "string",
+            "minLength": 1
+          }
         }
       }
     },
@@ -109,7 +194,8 @@
       "items": {
         "type": "string",
         "minLength": 1
-      }
+      },
+      "uniqueItems": true
     }
   }
 }
